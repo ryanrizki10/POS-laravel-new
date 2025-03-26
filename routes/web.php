@@ -13,7 +13,7 @@ route::get('tambah', [BelajarController::class, 'tambah']);
 route::get('kurang', [BelajarController::class, 'kurang']);
 
 route::get('login', [LoginController::class, 'login']);
-route::post('action-Login', [LoginController::class, 'actionLogin']);
+route::post('actionLogin', [LoginController::class, 'actionLogin']);
 
 route::post('actionTambah', [BelajarController::class, 'actionTambah']);
 route::post('actionKurang', [BelajarController::class, 'actionKurang']);
