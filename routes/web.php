@@ -8,14 +8,14 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
 
 Route::get('belajar', [BelajarController::class, 'index']);
 Route::get('tambah', [BelajarController::class, 'tambah']);
 Route::get('kurang', [BelajarController::class, 'kurang']);
 
-Route::get('login', [LoginController::class, 'login']);
+Route::get('login', [LoginController::class, 'login'])->name('login');
 Route::post('action-login', [LoginController::class, 'actionLogin']);
 
 Route::post('actionTambah', [BelajarController::class, 'actionTambah']);
@@ -23,5 +23,5 @@ Route::post('actionKurang', [BelajarController::class, 'actionKurang']);
 
 Route::resource('dashboard', DashboardController::class);
 Route::resource('categories', CategoriesController::class);
-Route::resource('users', UserController::class);
+Route::resource('users', UserController::class)->middleware('auth');
 
