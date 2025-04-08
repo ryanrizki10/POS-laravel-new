@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use GrahamCampbell\ResultType\Success;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,5 +29,9 @@ class LoginController extends Controller
         } else {
             return back()->withErrors(['email'=> 'Please check your creddentials'])->withInput();
         }
+    }
+    public function logout(request $request): RedirectResponse {
+        auth::logout();
+        return redirect('login')->with('Success', '');
     }
 }

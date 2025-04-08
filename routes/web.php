@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BelajarController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CategoriesController;
@@ -23,5 +24,8 @@ Route::post('actionKurang', [BelajarController::class, 'actionKurang']);
 
 Route::resource('dashboard', DashboardController::class);
 Route::resource('categories', CategoriesController::class);
-Route::resource('users', UserController::class)->middleware('auth');
+Route::resource('products', ProductController::class);
+
+Route::resource('users', UserController::class);
+route::get('logout', [LoginController::class, 'logout']);
 

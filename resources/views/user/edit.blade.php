@@ -1,6 +1,5 @@
 @extends('layouts.main')
 @section('title', 'Edit User')
-
 @section('content')
 <div class="container mt-4">
     <section class="section">
