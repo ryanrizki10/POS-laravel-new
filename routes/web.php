@@ -28,6 +28,9 @@ Route::resource('categories', CategoriesController::class);
 Route::resource('products', ProductController::class);
 route::resource('pos', TransactionController::class);
 
+Route::get('get-product/{id}', [TransactionController::class, 'getProduct']);
+
+
 Route::resource('users', UserController::class);
 route::get('logout', [LoginController::class, 'logout']);
 

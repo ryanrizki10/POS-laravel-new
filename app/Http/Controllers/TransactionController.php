@@ -98,4 +98,11 @@ class TransactionController extends Controller
         return redirect()->route('products.index')->with('success', 'Product deleted successfully');
     }
 
+    public function getProduct($category_id)
+    {
+        $products = Products::where('category_id', $category_id)->get();
+        $response = ['status' => 'success', 'message' => 'Fetch Product Success', 'data' => $products];
+        return response()->json($response, 200);
+    }
+
 }
