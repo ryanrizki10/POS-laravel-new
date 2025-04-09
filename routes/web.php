@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TransactionController;
 
 Route::get('/', function () {
     return view('login');
@@ -25,6 +26,7 @@ Route::post('actionKurang', [BelajarController::class, 'actionKurang']);
 Route::resource('dashboard', DashboardController::class);
 Route::resource('categories', CategoriesController::class);
 Route::resource('products', ProductController::class);
+route::resource('pos', TransactionController::class);
 
 Route::resource('users', UserController::class);
 route::get('logout', [LoginController::class, 'logout']);
