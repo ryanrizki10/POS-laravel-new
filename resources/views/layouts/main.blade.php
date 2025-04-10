@@ -172,6 +172,7 @@
                 let namaProduk = selectedOption.text()
                 let photoProduct = selectedOption.data('img');
                 let productPrice = parseInt(selectedOption.data('price')) || 0;
+            
 
                 if($('#category_id').val() == "") {
                     alert("Category required");
@@ -195,6 +196,7 @@
                     newRow += "</tr>";
 
                     tbody.append(newRow);
+                    calculateSubTotal();
 
                     clearAll();
 
@@ -205,6 +207,7 @@
                         let price = parseInt(row.find('.price').data('price')) || 0;
                         let total = qty * price;
                         row.find('.subtotal').text(formatRupiah(total)); //NaN
+                        calculateSubTotal();
                     
                     })
             });
@@ -213,6 +216,18 @@
                 $('#category_id').val('');
                 $('#product_id').val('');
             }
+
+function calculateSubTotal() {
+    let grandtotal = 0;
+    $('.subtotal').each(function () {
+        // let total = parseInt($(this).text()) || 0;
+        // let total = parseInt($(this).text().replace(/\./g, ''));
+        let total = parseInt($(this).text().replace(/\./g, '').replace('Rp', '').trim()) || 0;
+        grandtotal += total;        
+    });
+
+    $('.grandtotal').text(formatRupiah(grandtotal));
+}
 
         </script>
     </body>
