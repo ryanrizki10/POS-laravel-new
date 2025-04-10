@@ -36,13 +36,31 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
+        // ORD-100425001
+        $qOrderCode = Orders::max('id');
+        $qOrderCode++;
+        $orderCode = "ORD". date("dmy"). sprintf("%03d", $qOrderCode);
         $data = [
-            'category_id' => $request->category_id,
-            'product_name' => $request->product_name,
-            'product_price' => $request->product_price,
-            'product_description' => $request->product_description,
-            'is_active' => $request->is_active,
+            'order_code' => $orderCode,
+            'order_date' => date("Y-m-d"),
+            'order_amount' => $request->grandtotal,
+            'order_change' => 1,
+            'order_status' => 1,
         ];
+
+        $order = Orders::create($data);
+
+        $qty = $request->qty;
+        foreach ($qty as $key => $data){
+            orderDetails::create([
+                'order_id'=> $order->id,
+                'product_id' => $request->qty[$key],
+                'qty' => $request->qty[$key],
+                'order_price' => $request->order_price[$key],
+                'order_subtotal' => $request->order_subtotal[$key],
+            ]);
+        }
+
         if($request->hasFile('product_photo')) {
             $photo = $request->file('product_photo')->store('products', 'public');
             $data['product_photo'] = $photo;

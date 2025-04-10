@@ -170,6 +170,7 @@
                 let tbody = $('tbody');
                 let selectedOption = $('#product_id').find('option:selected');
                 let namaProduk = selectedOption.text()
+                let productId = selectedOption.val()
                 let photoProduct = selectedOption.data('img');
                 let productPrice = parseInt(selectedOption.data('price')) || 0;
             
@@ -188,10 +189,10 @@
                 let baseStorageUrl = "{{ asset('storage') }}";
 
                 let newRow = "<tr>";
-                newRow += `<td><img width="100px" src="${baseStorageUrl}/${photoProduct}" alt="Ini gambar"></td>`;
-                newRow += `<td>${namaProduk}</td>`
+                    newRow += `<td><img width="100px" src="${baseStorageUrl}/${photoProduct}" alt="Ini gambar"></td>`;
+                    newRow += `<td>${namaProduk} <input type ="hidden" name="product_id[]" value="${productId}"></td>`;
                     newRow += `<td width='110px'><input value='1' type = 'number' name='qty[]'class='qty form-control'></td>`
-                    newRow += `<td><span class='price' data-price=${productPrice}>${formatRupiah(productPrice)}</span></td>`
+                    newRow += `<td><input type ="hidden" name="order_price[]" value="${productPrice}"><span class='price' data-price=${productPrice}>Rp. ${formatRupiah(productPrice)}</span></td>`
                     newRow += `<td><span class ='subtotal'>${formatRupiah(productPrice)}</span></td>`
                     newRow += "</tr>";
 
@@ -227,6 +228,7 @@ function calculateSubTotal() {
     });
 
     $('.grandtotal').text(formatRupiah(grandtotal));
+    $('input[name="grandtotal"]').val(grandtotal);
 }
 
         </script>
