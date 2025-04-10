@@ -193,7 +193,7 @@
                     newRow += `<td>${namaProduk} <input type ="hidden" name="product_id[]" value="${productId}"></td>`;
                     newRow += `<td width='110px'><input value='1' type = 'number' name='qty[]'class='qty form-control'></td>`
                     newRow += `<td><input type ="hidden" name="order_price[]" value="${productPrice}"><span class='price' data-price=${productPrice}>Rp. ${formatRupiah(productPrice)}</span></td>`
-                    newRow += `<td><span class ='subtotal'>${formatRupiah(productPrice)}</span></td>`
+                    newRow += `<td><input type ="hidden" class='subtotal_input' name="order_subtotal[]" value="${productPrice}"><span class ='subtotal'>${formatRupiah(productPrice)}</span></td>`
                     newRow += "</tr>";
 
                     tbody.append(newRow);
@@ -208,6 +208,7 @@
                         let price = parseInt(row.find('.price').data('price')) || 0;
                         let total = qty * price;
                         row.find('.subtotal').text(formatRupiah(total)); //NaN
+                        row.find('.subtotal_input').val(formatRupiah(total));//NaN
                         calculateSubTotal();
                     
                     })
