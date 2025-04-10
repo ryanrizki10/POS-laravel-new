@@ -134,18 +134,86 @@
         "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
 
         <script>
+            function formatRupiah(number) {
+                
+                const formatted = number.toLocaleString("id", {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                });
+
+                return formatted;
+            }
+
+
+
             $("#category_id").change(function () {
-                alert("asd");
-                let cat_id = $(this).val();
+                let cat_id = $(this).val()
+                let option = `<option value="">Select One</option>`;
+
                 $.ajax({
                     url: "/get-product/" + cat_id,
                     type: "GET",
                     dataType: "json",
                     success: function (resp) {
-                        console.log("response", resp);
-                    },
+                        // $("#product_id").empty();
+                        // console.log("response", resp);
+                        $.each(resp.data, function(index, value) {
+                            option +=
+                             `<option value="${value.id}"data-price="${value.product_price}" data-img="${value.product_photo}"">${value.product_name}</option>`;
+                        });
+                        $('#product_id').html(option); 
+                    }
                 });
             });
+
+            $(".add-row").click(function() {
+                let tbody = $('tbody');
+                let selectedOption = $('#product_id').find('option:selected');
+                let namaProduk = selectedOption.text()
+                let photoProduct = selectedOption.data('img');
+                let productPrice = parseInt(selectedOption.data('price')) || 0;
+
+                if($('#category_id').val() == "") {
+                    alert("Category required");
+                    return false;
+                }
+
+                if($('#product_id').val() == "") {
+                    alert("product required");
+                    return false;
+                }
+
+            
+                let baseStorageUrl = "{{ asset('storage') }}";
+
+                let newRow = "<tr>";
+                newRow += `<td><img width="100px" src="${baseStorageUrl}/${photoProduct}" alt="Ini gambar"></td>`;
+                newRow += `<td>${namaProduk}</td>`
+                    newRow += `<td width='110px'><input value='1' type = 'number' name='qty[]'class='qty form-control'></td>`
+                    newRow += `<td><span class='price' data-price=${productPrice}>${formatRupiah(productPrice)}</span></td>`
+                    newRow += `<td><span class ='subtotal'>${formatRupiah(productPrice)}</span></td>`
+                    newRow += "</tr>";
+
+                    tbody.append(newRow);
+
+                    clearAll();
+
+                    $('.qty').off().on('input', function () {
+                        // alert('tess');
+                        let row = $(this).closest('tr');
+                        let qty = parseInt($(this).val()) || 0;
+                        let price = parseInt(row.find('.price').data('price')) || 0;
+                        let total = qty * price;
+                        row.find('.subtotal').text(formatRupiah(total)); //NaN
+                    
+                    })
+            });
+
+            function clearAll() {
+                $('#category_id').val('');
+                $('#product_id').val('');
+            }
+
         </script>
     </body>
 </html>

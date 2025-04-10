@@ -38,12 +38,10 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <button class="btn btn-primary" type="submit">
-                                Save
+                            <button class="btn btn-primary add-row" type="button">
+                                Add To Chart
                             </button>
-                            <button class="btn btn-danger" type="reset">
-                                Cancel
-                            </button>
+                           
                         </div>
                     </form>
                 </div>
@@ -60,19 +58,20 @@
                             <th>Product</th>
                             <th>Qty</th>
                             <th>Price</th>
+                            <th>Sub Total</th>
                         </tr>
                         </thead>
                         <tbody align="center">
                             <tfoot>
-                        <tr>
-                            <td colspan="2">Subotal</td>
+                        <!-- <tr>
                             <td colspan="2">
                                 <input type="number" class="form-control">
-                            </td>
+                            </td> -->
                         <tr>
                             <td colspan="2">Grand Total</td>
-                            <td colspan="2">
-                                <input type="number" class="form-control">
+                            <td colspan="3">
+                                <span class="grandtotal"></span>
+                                <input type="number" class="form-control" name="grandtotal" readonly>
                             </td>
                         </tr>
                         </tfoot>

@@ -126,6 +126,11 @@
               <i class="bi bi-circle"></i><span>POS</span>
             </a>
           </li>
+          <li>
+            <a href="{{ route('pos.index') }}">
+              <i class="bi bi-circle"></i><span>Pos Sale</span>
+            </a>
+          </li>
           <!-- <li>
             <a href="forms-layouts.html" class="active">
               <i class="bi bi-circle"></i><span>Form Layouts</span>
