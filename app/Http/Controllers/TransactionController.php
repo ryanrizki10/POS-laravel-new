@@ -12,6 +12,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 
 
+
 class TransactionController extends Controller
 {
     /**
@@ -41,7 +42,7 @@ class TransactionController extends Controller
         // ORD-100425001
         $qOrderCode = Orders::max('id');
         $qOrderCode++;
-        $orderCode = "ORD". date("dmy"). sprintf("%03d", $qOrderCode);
+        $orderCode = "ORD" . date("dmy") . sprintf("%03d", $qOrderCode);
         $data = [
             'order_code' => $orderCode,
             'order_date' => date("Y-m-d"),
@@ -52,9 +53,9 @@ class TransactionController extends Controller
 
         $order = Orders::create($data);
         $qty = $request->qty;
-        foreach ($qty as $key => $data){
+        foreach ($qty as $key => $data) {
             $order_details = orderDetails::create([
-                'order_id'=> $order->id,
+                'order_id' => $order->id,
                 'product_id' => $request->product_id[$key],
                 'qty' => $request->qty[$key],
                 'order_price' => $request->order_price[$key],
@@ -63,7 +64,7 @@ class TransactionController extends Controller
             return $order_details;
         }
 
-        if($request->hasFile('product_photo')) {
+        if ($request->hasFile('product_photo')) {
             $photo = $request->file('product_photo')->store('products', 'public');
             $data['product_photo'] = $photo;
         }
@@ -74,7 +75,7 @@ class TransactionController extends Controller
 
     }
 
-   public function edit($id)
+    public function edit($id)
     {
         $edit = Products::find($id);
         $categories = Categories::orderBy('id', 'desc')->get();
@@ -85,28 +86,34 @@ class TransactionController extends Controller
     {
         $product = Products::find($id);
 
-    $product->category_id = $request->category_id;
-    $product->product_name = $request->product_name;
-    $product->product_price = $request->product_price;
-    $product->product_description = $request->product_description;
-    $product->is_active = $request->is_active;
+        $product->category_id = $request->category_id;
+        $product->product_name = $request->product_name;
+        $product->product_price = $request->product_price;
+        $product->product_description = $request->product_description;
+        $product->is_active = $request->is_active;
 
 
-    if ($request->hasFile('product_photo')) {
-        if ($product->product_photo) {
-            File::delete(public_path('storage/' . $product->product_photo));
+        if ($request->hasFile('product_photo')) {
+            if ($product->product_photo) {
+                File::delete(public_path('storage/' . $product->product_photo));
+            }
+
+            $photo = $request->file('product_photo')->store('products', 'public');
+            $product->product_photo = $photo;
         }
 
-        $photo = $request->file('product_photo')->store('products', 'public');
-        $product->product_photo = $photo;
-    }
+        $product->save();
+        Alert::image(
+            'Product Updated!',
+            'Product update was successful!',
+            asset('storage/products/download.jpg'),
+            '500px',
+            '250px',
+            'Product Success Image'
+        );
 
-    $product->save();
-    Alert::image('Product Updated!','Product update was successful!',
-    asset('storage/products/download.jpg'),'500px','250px','Product Success Image');
 
-
-    return redirect()->route('products.index');
+        return redirect()->route('products.index');
 
     }
 
@@ -133,6 +140,14 @@ class TransactionController extends Controller
         $orderDetails = orderDetails::with('product')->where('order_id', $id)->get();
         $title = "Order Details Of " . $order->order_code;
         return view('pos.show', compact('order', 'orderDetails', 'title'));
+    }
+
+    public function print($id)
+    {
+        $order = Orders::findOrFail($id);
+        $orderDetails = OrderDetails::with('product')->where('order_id', $id)->get();
+        return view('pos.print-struk', compact('order', 'orderDetails'));
+
     }
 
 }

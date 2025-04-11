@@ -8,7 +8,7 @@
                     <h3  class="card-title mb-0">{{ $title ?? '' }}</h3>
                     <div>
                         <a href="{{ url()->previous() }}" class="btn btn-warning me-2">Back</a>
-                        <a href="#" class="btn btn-success"><i class="bi bi-printer"></i></a>
+                        <a href="{{ route('print', $order->id) }}" class="btn btn-success"><i class="bi bi-printer"></i></a>
                     </div>
                 </div>
 
@@ -76,8 +76,7 @@
                                 <tr>
                                     <td colspan="2">Grand Total</td>
                                     <td colspan="3" class="text-end pe-4">
-                                        <span class="grandtotal"></span>
-                                        <input type="hidden" class="form-control" name="grandtotal" readonly>
+                                    <span class="grandtotal">{{ number_format($order->order_amount) }}</span>
                                     </td>
                                 </tr>
                             </tfoot>
