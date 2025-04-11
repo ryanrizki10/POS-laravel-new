@@ -54,6 +54,7 @@
                                     <th>Qty</th>
                                     <th>Price</th>
                                     <th>Sub Total</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody align="center">

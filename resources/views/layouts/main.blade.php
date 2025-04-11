@@ -194,6 +194,7 @@
                     newRow += `<td width='110px'><input value='1' type = 'number' name='qty[]'class='qty form-control'></td>`
                     newRow += `<td><input type ="hidden" name="order_price[]" value="${productPrice}"><span class='price' data-price=${productPrice}>Rp. ${formatRupiah(productPrice)}</span></td>`
                     newRow += `<td><input type ="hidden" class='subtotal_input' name="order_subtotal[]" value="${productPrice}"><span class ='subtotal'>${formatRupiah(productPrice)}</span></td>`
+                    newRow += `<td><button class="btn btn-danger btn-sm delete-row" type="button"><i class="bi bi-trash"></i></button></td>`
                     newRow += "</tr>";
 
                     tbody.append(newRow);
@@ -230,7 +231,15 @@ function calculateSubTotal() {
 
     $('.grandtotal').text(formatRupiah(grandtotal));
     $('input[name="grandtotal"]').val(grandtotal);
+
+    $(document).on('click', '.delete-row', function(){
+        $(this).closest('tr').remove();
+        calculateSubTotal();
+
+        });
 }
+
+
 
         </script>
     </body>

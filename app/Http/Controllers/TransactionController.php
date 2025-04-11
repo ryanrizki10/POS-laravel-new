@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Categories;
 use App\Models\Products;
 use App\Models\Orders;
+use App\Models\orderDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use RealRashid\SweetAlert\Facades\Alert;
+
 
 
 class TransactionController extends Controller
@@ -49,16 +51,16 @@ class TransactionController extends Controller
         ];
 
         $order = Orders::create($data);
-
         $qty = $request->qty;
         foreach ($qty as $key => $data){
-            orderDetails::create([
+            $order_details = orderDetails::create([
                 'order_id'=> $order->id,
-                'product_id' => $request->qty[$key],
+                'product_id' => $request->product_id[$key],
                 'qty' => $request->qty[$key],
                 'order_price' => $request->order_price[$key],
                 'order_subtotal' => $request->order_subtotal[$key],
             ]);
+            return $order_details;
         }
 
         if($request->hasFile('product_photo')) {
@@ -121,6 +123,16 @@ class TransactionController extends Controller
         $products = Products::where('category_id', $category_id)->get();
         $response = ['status' => 'success', 'message' => 'Fetch Product Success', 'data' => $products];
         return response()->json($response, 200);
+    }
+
+
+    public function show($id)
+    {
+        //order 
+        $order = Orders::findOrFail($id);
+        $orderDetails = orderDetails::with('product')->where('order_id', $id)->get();
+        $title = "Order Details Of " . $order->order_code;
+        return view('pos.show', compact('order', 'orderDetails', 'title'));
     }
 
 }

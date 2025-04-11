@@ -37,7 +37,7 @@
                                     @foreach ($datas as $data)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        <td><img src="{{ asset('storage/'. $data->product_photo) }}" alt="" width="50"></td>
+                                        <td><img src="{{ asset('storage/'. $data->product_photo) }}" alt="" width="200"></td>
                                         <td>{{ $data->category->category_name}}</td>
                                         <td>{{ $data->product_name }}</td>
                                         <td>{{ $data->product_price }}</td>
