@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\KasirController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TransactionController;
 
@@ -37,3 +38,6 @@ route::get('logout', [LoginController::class, 'logout']);
 
 route::get('print/{id}', [TransactionController::class, 'print'])->name('print');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('kasir', [KasirController::class, 'index'])->name('kasir');
+});
